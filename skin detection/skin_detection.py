@@ -10,9 +10,9 @@ def draw_rect(frame):
 
     global hand_one_rect_x, hand_one_rect_y, hand_two_rect_y, hand_two_rect_x
 
-    hand_one_rect_x = np.array([6*rows/20, 6*rows/20, 6*rows/20, 8*rows/20, 8*rows/20, 8*rows/20, 10*rows/20, 10*rows/20, 10*rows/20], dtype= np.uint32)
+    hand_one_rect_x = np.array([7*rows/20, 7*rows/20, 7*rows/20, 9*rows/20, 9*rows/20, 9*rows/20, 11*rows/20, 11*rows/20, 11*rows/20], dtype= np.uint32)
 
-    hand_one_rect_y =np.array([9*cols/20, 10*cols/20, 11*cols/20, 9*cols/20, 10*cols/20, 11*cols/20, 9*cols/20, 10*cols/20, 11*cols/20], dtype= np.uint32)
+    hand_one_rect_y =np.array([10*cols/20, 11*cols/20, 12*cols/20, 10*cols/20, 11*cols/20, 12*cols/20, 10*cols/20, 11*cols/20, 12*cols/20], dtype= np.uint32)
 
 
 
@@ -40,7 +40,7 @@ def hand_histogram(frame):
     hand_hist = cv2.calcHist([roi], [0], None, [256], [0, 256])
     return (cv2.normalize(hand_hist, hand_hist, 0, 255, cv2.NORM_MINMAX))
     
-def hist_masking(frame,hand_hist):
+def hist_masking(frame):
     hsv_frame=cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
     dst = cv2.calcBackProject([hsv_frame], [0, 1], hand_hist, [0, 180, 0, 256], 1)
@@ -57,20 +57,16 @@ def hist_masking(frame,hand_hist):
     return(thresh)
 
 
-def img_operation(frame,hand_hist):
+def image_operation(frame,hand_hist):
     frame = hist_masking(frame,hand_hist)
 
     return frame
 
 
 def main():
-    is_hand_hist_created=False
-    global lock1,lock2,lock3
-    lock1 = lock3 = 0 
-    lock2 = 0
-    global value1, value2,value3
-    value1 = value2 = value3 = 1
     global hand_hist,sub
+    is_hand_hist_created=False
+    
     cap= cv2.VideoCapture(0)
     sub = cv2.createBackgroundSubtractorMOG2()
 
@@ -82,17 +78,11 @@ def main():
         frame= cv2.flip(frame,1)
 
 
-        if pressed_key & 0xFF == ord("z"):
-            # t = time.time()
+        if pressed_key & 0xFF == ord("s"):
+            
             is_hand_hist_created=True
             hand_hist=hand_histogram(frame)
-            
-            # cv2.putText(frame,"DONE",(220,340),cv2.FONT_HERSHEY_SIMPLEX,2,(0,255,255))
-            # while(time.time()<t+5):
-            # cv2.putText(frame,"DONE",(220,340),cv2.FONT_HERSHEY_SIMPLEX,2,(0,255,255))
-              
-            
-
+                          
         if is_hand_hist_created:
             frame = img_operation(frame, hand_hist)
         else:
