@@ -57,8 +57,8 @@ def hist_masking(frame):
     return(thresh)
 
 
-def image_operation(frame,hand_hist):
-    frame = hist_masking(frame,hand_hist)
+def image_operation(frame):
+    frame = hist_masking(frame)
 
     return frame
 
@@ -84,7 +84,7 @@ def main():
             hand_hist=hand_histogram(frame)
                           
         if is_hand_hist_created:
-            frame = img_operation(frame, hand_hist)
+            frame = image_operation(frame)
         else:
             frame = draw_rect(frame)
 
