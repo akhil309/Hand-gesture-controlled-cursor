@@ -48,7 +48,7 @@ def hist_masking(frame):
     disc = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (31, 31))
     
     cv2.filter2D(dst, -1, disc, dst)
-    ret, thresh = cv2.threshold(dst, 150, 255, cv2.THRESH_BINARY)
+    ret, thresh = cv2.threshold(dst, 150, 255, cv2.THRESH_BINARY+cv2.THRESH_OTSU)
     thresh = cv2.medianBlur(thresh,5)
     thresh = cv2.erode(thresh, None, iterations=5)
     thresh = cv2.dilate(thresh, None, iterations=5)
