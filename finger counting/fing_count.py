@@ -124,7 +124,7 @@ def main():
     global hand_hist,sub
     is_hand_hist_created=False
     
-    cap= cv2.VideoCapture(1)
+    cap= cv2.VideoCapture(0)
     sub = cv2.createBackgroundSubtractorMOG2()
 
     while(cap.isOpened()):
