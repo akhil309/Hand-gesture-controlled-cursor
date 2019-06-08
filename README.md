@@ -1,4 +1,5 @@
 # Hand-gesture-controlled-cursor
+      -Project hosted by electronics club at IITG.
 Hand gesture controlled mouse cursor with webcam.
 
 This approach for hand gesture recognition is vision based,which
